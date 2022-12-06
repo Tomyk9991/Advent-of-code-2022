@@ -3,7 +3,6 @@ use std::fs;
 pub fn run() {
     calculation(4);
     calculation(14);
-
 }
 
 fn calculation(unique_chars: usize) {
@@ -13,7 +12,7 @@ fn calculation(unique_chars: usize) {
 
     while upper_limit < input.len() {
         let s = &input[lower_limit..upper_limit];
-        if all_different(s, unique_chars) {
+        if all_different_bitwise(s, unique_chars) {
             break;
         }
 
@@ -24,17 +23,18 @@ fn calculation(unique_chars: usize) {
     println!("{}", upper_limit);
 }
 
-fn all_different(sequence: &str, check_amount: usize) -> bool {
+fn all_different_bitwise(sequence: &str, check_amount: usize) -> bool {
+    let mut data: u64 = 0b0;
     for i in 0..check_amount {
-        let target = sequence.chars().nth(i).unwrap();
+        let target = sequence.chars().nth(i).unwrap() as usize - 65;
 
-        for j in 0..check_amount {
-            if i != j && target == sequence.chars().nth(j).unwrap() {
-                return false;
-            }
+        // is it set at this position?
+        if (data & 1 << target) != 0 { // if there is a 1 already
+            return false;
         }
-    }
 
+        data |= (1 << target);
+    }
 
     return true;
 }
