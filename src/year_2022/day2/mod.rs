@@ -1,4 +1,5 @@
 use std::fs;
+use crate::advent_runner::Day;
 
 #[derive(PartialEq)]
 enum Selection {
@@ -53,41 +54,6 @@ impl Selection {
     }
 }
 
-pub fn run() {
-    let input = fs::read_to_string("src/day2/input.txt")
-        .unwrap();
-
-    let outcomes: Vec<(i32, i32)> = input
-        .split("\n")
-        .map(|strategy| {
-            if let [opponent, you] = strategy.split(" ").collect::<Vec<&str>>()[..] {
-                let opponent_selection: Selection = Selection::convert_from_str(opponent);
-                let your_selection: Selection = Selection::convert_from_str(you);
-                let your_selection_2: Selection = Selection::convert_from_opponent_and_outcome(&opponent_selection, you);
-
-                let outcome = play_game(&opponent_selection, &your_selection) as i32;
-                let outcome_2 = play_game(&opponent_selection, &your_selection_2) as i32;
-                let result = outcome + (your_selection as i32);
-                let result_2 = outcome_2 + (your_selection_2 as i32);
-                return (result, result_2)
-            }
-
-            (0, 0)
-        }).collect::<Vec<(i32, i32)>>();
-    
-    /* first  10404*/
-    /* second 10334 */
-    let mut sum_1 = 0;
-    let mut sum_2 = 0;
-    for (outcome_1, outcome_2) in outcomes {
-        sum_1 += outcome_1;
-        sum_2 += outcome_2;
-    }
-
-    println!("{}", sum_1);
-    println!("{}", sum_2);
-}
-
 fn play_game(opponent: &Selection, you: &Selection) -> Outcome {
     if opponent == you {
         return Outcome::Draw;
@@ -100,4 +66,45 @@ fn play_game(opponent: &Selection, you: &Selection) -> Outcome {
     }
 
     return Outcome::Lose;
+}
+
+pub struct Day2;
+
+impl Day for Day2 {
+    fn date(&self) -> (i32, i32) { (2, 2022) }
+
+    fn run(&self) {
+        let input = fs::read_to_string("src/year_2022/day2/input.txt")
+            .unwrap();
+
+        let outcomes: Vec<(i32, i32)> = input
+            .split("\n")
+            .map(|strategy| {
+                if let [opponent, you] = strategy.split(" ").collect::<Vec<&str>>()[..] {
+                    let opponent_selection: Selection = Selection::convert_from_str(opponent);
+                    let your_selection: Selection = Selection::convert_from_str(you);
+                    let your_selection_2: Selection = Selection::convert_from_opponent_and_outcome(&opponent_selection, you);
+
+                    let outcome = play_game(&opponent_selection, &your_selection) as i32;
+                    let outcome_2 = play_game(&opponent_selection, &your_selection_2) as i32;
+                    let result = outcome + (your_selection as i32);
+                    let result_2 = outcome_2 + (your_selection_2 as i32);
+                    return (result, result_2)
+                }
+
+                (0, 0)
+            }).collect::<Vec<(i32, i32)>>();
+
+        /* first  10404*/
+        /* second 10334 */
+        let mut sum_1 = 0;
+        let mut sum_2 = 0;
+        for (outcome_1, outcome_2) in outcomes {
+            sum_1 += outcome_1;
+            sum_2 += outcome_2;
+        }
+
+        println!("{}", sum_1);
+        println!("{}", sum_2);
+    }
 }

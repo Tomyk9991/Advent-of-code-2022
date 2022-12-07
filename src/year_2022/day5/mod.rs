@@ -1,56 +1,11 @@
 use std::fs;
+use crate::advent_runner::Day;
 
 #[derive(Debug)]
 struct Move {
     amount: u32,
     from: u32,
     to: u32
-}
-
-pub fn run() {
-    let input = fs::read_to_string("src/day5/input.txt").unwrap();
-
-    let mut stack_representation: Vec<Vec<char>> = extract_stack(&input);
-    let move_list: Vec<Move> = extract_moves(&input);
-
-    for m in &move_list {
-        for _ in 0..m.amount {
-            let letter = stack_representation[(m.from - 1) as usize].pop().unwrap();
-            stack_representation[(m.to - 1) as usize].push(letter);
-        }
-    }
-
-    let mut final_word: String = String::from("");
-    for stack in &stack_representation {
-        let top_letter = stack.last().unwrap();
-        final_word += top_letter.to_string().as_str();
-    }
-
-    println!("First part: {}", final_word);
-
-    let mut stack_representation: Vec<Vec<char>> = extract_stack(&input);
-
-    for m in &move_list {
-        let mut sub_stack = String::from("");
-        for _ in 0..m.amount {
-            let letter = stack_representation[(m.from - 1) as usize].pop().unwrap();
-            sub_stack += letter.to_string().as_str();
-        }
-
-        let rev_sub_stack = sub_stack.chars().rev().collect::<String>();
-
-        for crate_str in rev_sub_stack.chars() {
-            stack_representation[(m.to - 1) as usize].push(crate_str);
-        }
-    }
-
-    let mut final_word: String = String::from("");
-    for stack in &stack_representation {
-        let top_letter = stack.last().unwrap();
-        final_word += top_letter.to_string().as_str();
-    }
-
-    println!("Second part: {}", final_word);
 }
 
 fn extract_moves(input: &String) -> Vec<Move> {
@@ -105,4 +60,58 @@ fn extract_stack(input: &String) -> Vec<Vec<char>> {
     }
 
     return stacks;
+}
+
+pub struct Day5;
+
+impl Day for Day5 {
+    fn date(&self) -> (i32, i32) {
+        (5, 2022)
+    }
+
+    fn run(&self) {
+        let input = fs::read_to_string("src/year_2022/day5/input.txt").unwrap();
+
+        let mut stack_representation: Vec<Vec<char>> = extract_stack(&input);
+        let move_list: Vec<Move> = extract_moves(&input);
+
+        for m in &move_list {
+            for _ in 0..m.amount {
+                let letter = stack_representation[(m.from - 1) as usize].pop().unwrap();
+                stack_representation[(m.to - 1) as usize].push(letter);
+            }
+        }
+
+        let mut final_word: String = String::from("");
+        for stack in &stack_representation {
+            let top_letter = stack.last().unwrap();
+            final_word += top_letter.to_string().as_str();
+        }
+
+        println!("First part: {}", final_word);
+
+        let mut stack_representation: Vec<Vec<char>> = extract_stack(&input);
+
+        for m in &move_list {
+            let mut sub_stack = String::from("");
+            for _ in 0..m.amount {
+                let letter = stack_representation[(m.from - 1) as usize].pop().unwrap();
+                sub_stack += letter.to_string().as_str();
+            }
+
+            let rev_sub_stack = sub_stack.chars().rev().collect::<String>();
+
+            for crate_str in rev_sub_stack.chars() {
+                stack_representation[(m.to - 1) as usize].push(crate_str);
+            }
+        }
+
+        let mut final_word: String = String::from("");
+        for stack in &stack_representation {
+            let top_letter = stack.last().unwrap();
+            final_word += top_letter.to_string().as_str();
+        }
+
+        println!("Second part: {}", final_word);
+    }
 }

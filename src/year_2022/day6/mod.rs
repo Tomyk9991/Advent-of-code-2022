@@ -1,4 +1,5 @@
 use std::fs;
+use crate::advent_runner::Day;
 
 pub fn run() {
     calculation(4);
@@ -6,7 +7,7 @@ pub fn run() {
 }
 
 fn calculation(unique_chars: usize) {
-    let input = fs::read_to_string("src/day6/input.txt").unwrap();
+    let input = fs::read_to_string("src/year_2022/day6/input.txt").unwrap();
     let mut lower_limit = 0;
     let mut upper_limit = unique_chars;
 
@@ -37,4 +38,17 @@ fn all_different_bitwise(sequence: &str, check_amount: usize) -> bool {
     }
 
     return true;
+}
+
+pub struct Day6;
+
+impl Day for Day6 {
+    fn date(&self) -> (i32, i32) {
+        (6, 2022)
+    }
+
+    fn run(&self) {
+        calculation(4);
+        calculation(14);
+    }
 }
