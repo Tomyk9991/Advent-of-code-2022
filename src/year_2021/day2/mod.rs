@@ -39,7 +39,7 @@ fn part_2() {
                 match command {
                     "forward" => {
                         horizontal += unit;
-                        depth += (aim * unit)
+                        depth += aim * unit
                     },
                     "down" => aim += unit,
                     "up" => aim -= unit,

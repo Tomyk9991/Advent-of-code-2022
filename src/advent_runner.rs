@@ -9,7 +9,6 @@ pub trait Day {
 pub struct AdventRunner {
     days: Vec<Box<dyn Day>>,
     current_year: i32,
-    run_target: Option<Box<dyn Day>>
 }
 
 impl AdventRunner {
@@ -26,8 +25,8 @@ impl AdventRunner {
                 Box::new(year_2022::day4::Day4),
                 Box::new(year_2022::day5::Day5),
                 Box::new(year_2022::day6::Day6),
-            ],
-            run_target: None
+                Box::new(year_2022::day7::Day7)
+            ]
         }
     }
 

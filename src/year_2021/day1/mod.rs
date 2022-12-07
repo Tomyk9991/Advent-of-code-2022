@@ -6,7 +6,7 @@ fn part_2() {
     let vec = input.split("\n").collect::<Vec<&str>>();
     let mut increased_counter = 0;
 
-    for mut i in 0..vec.len() - 3 {
+    for i in 0..vec.len() - 3 {
         let first = {
             let fir = vec[i + 0].trim().parse::<i32>().unwrap();
             let sec = vec[i + 1].trim().parse::<i32>().unwrap();
