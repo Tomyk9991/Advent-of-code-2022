@@ -65,7 +65,6 @@ impl Grid {
 
     pub fn scenic_score(&self, x: usize, y: usize) -> usize {
         let current_value = self[(x, y)];
-        
 
         let mut look_left = 0;
         for neighbour in (0..x).rev()  {
@@ -163,6 +162,6 @@ impl Day for Day8 {
             }
         }
 
-        println!("Part two: {}", highest_scenic_score); // 288120
+        println!("Part two: {}", highest_scenic_score);
     }
 }
