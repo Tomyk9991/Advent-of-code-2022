@@ -25,7 +25,8 @@ impl AdventRunner {
                 Box::new(year_2022::day4::Day4),
                 Box::new(year_2022::day5::Day5),
                 Box::new(year_2022::day6::Day6),
-                Box::new(year_2022::day7::Day7)
+                Box::new(year_2022::day7::Day7),
+                Box::new(year_2022::day8::Day8)
             ]
         }
     }

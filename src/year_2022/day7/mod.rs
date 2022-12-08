@@ -132,6 +132,7 @@ impl Day for Day7 {
     fn run(&self) {
         // let input = fs::read_to_string("src/year_2022/day7/testing.txt").unwrap();
         let input = fs::read_to_string("src/year_2022/day7/input.txt").unwrap();
+
         let mut file_system: FileSystem = FileSystem::new();
 
         for line in input.split("\n") {
@@ -177,7 +178,6 @@ impl Day for Day7 {
         let target_unused_space = 30000000;
 
         let root = directories.last().unwrap();
-        println!("root: {:?}", root);
 
         let unused_space = total_disk_space - root.size;
         let still_required_space = target_unused_space - unused_space;
@@ -191,6 +191,6 @@ impl Day for Day7 {
         }
 
         let result = candidates.iter().min_by_key(|can| can.size).unwrap();
-        println!("{:?}", result);
+        println!("Part two: {:?}", result);
     }
 }
