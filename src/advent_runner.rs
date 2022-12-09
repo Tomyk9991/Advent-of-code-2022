@@ -2,6 +2,21 @@ use chrono::Datelike;
 use seq_macro::seq;
 use crate::{year_2021, year_2022};
 
+
+#[macro_export]
+macro_rules! amount_2022 {
+    ($expand:path) => {
+        $expand!(8);
+    };
+}
+
+#[macro_export]
+macro_rules! amount_2021 {
+    ($expand:path) => {
+        $expand!(3);
+    };
+}
+
 pub trait Day {
     fn date(&self) -> (i32, i32);
     fn run(&self);
@@ -16,29 +31,29 @@ impl AdventRunner {
     pub fn new() -> Self {
         let mut days: Vec<Box<dyn Day>> = Vec::new();
         
-        // check how many folders there are
-        // check the year
-        seq!(N in 1..=3 {
-            days.push(Box::new(year_2021::day~N::Day~N));
-        });
+        macro_rules! expand_2021 {
+            ($limit:literal) => {
+                seq!(N in 1..=$limit {
+                    days.push(Box::new(year_2021::day~N::Day~N));
+                });
+            }
+        }
+
+        macro_rules! expand_2022 {
+            ($limit:literal) => {
+                seq!(N in 1..=$limit {
+                    days.push(Box::new(year_2022::day~N::Day~N));
+                });
+            }
+        }
+        
+        amount_2021!(expand_2021);
+        amount_2022!(expand_2022);
         
         
         AdventRunner {
             current_year: chrono::Utc::now().year(),
-            days: days
-            // days: vec![
-            //     Box::new(year_2021::day1::Day1),
-            //     Box::new(year_2021::day2::Day2),
-            //     Box::new(year_2021::day3::Day3),
-            //     Box::new(year_2022::day1::Day1),
-            //     Box::new(year_2022::day2::Day2),
-            //     Box::new(year_2022::day3::Day3),
-            //     Box::new(year_2022::day4::Day4),
-            //     Box::new(year_2022::day5::Day5),
-            //     Box::new(year_2022::day6::Day6),
-            //     Box::new(year_2022::day7::Day7),
-            //     Box::new(year_2022::day8::Day8)
-            // ]
+            days
         }
     }
 
