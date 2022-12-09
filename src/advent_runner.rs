@@ -1,4 +1,5 @@
 use chrono::Datelike;
+use seq_macro::seq;
 use crate::{year_2021, year_2022};
 
 pub trait Day {
@@ -13,21 +14,31 @@ pub struct AdventRunner {
 
 impl AdventRunner {
     pub fn new() -> Self {
+        let mut days: Vec<Box<dyn Day>> = Vec::new();
+        
+        // check how many folders there are
+        // check the year
+        seq!(N in 1..=3 {
+            days.push(Box::new(year_2021::day~N::Day~N));
+        });
+        
+        
         AdventRunner {
             current_year: chrono::Utc::now().year(),
-            days: vec![
-                Box::new(year_2021::day1::Day1),
-                Box::new(year_2021::day2::Day2),
-                Box::new(year_2021::day3::Day3),
-                Box::new(year_2022::day1::Day1),
-                Box::new(year_2022::day2::Day2),
-                Box::new(year_2022::day3::Day3),
-                Box::new(year_2022::day4::Day4),
-                Box::new(year_2022::day5::Day5),
-                Box::new(year_2022::day6::Day6),
-                Box::new(year_2022::day7::Day7),
-                Box::new(year_2022::day8::Day8)
-            ]
+            days: days
+            // days: vec![
+            //     Box::new(year_2021::day1::Day1),
+            //     Box::new(year_2021::day2::Day2),
+            //     Box::new(year_2021::day3::Day3),
+            //     Box::new(year_2022::day1::Day1),
+            //     Box::new(year_2022::day2::Day2),
+            //     Box::new(year_2022::day3::Day3),
+            //     Box::new(year_2022::day4::Day4),
+            //     Box::new(year_2022::day5::Day5),
+            //     Box::new(year_2022::day6::Day6),
+            //     Box::new(year_2022::day7::Day7),
+            //     Box::new(year_2022::day8::Day8)
+            // ]
         }
     }
 
@@ -56,5 +67,11 @@ impl AdventRunner {
                 return;
             }
         }
+        
+        // at this point, just run the latest
+        let day = self.days.last().unwrap();
+        println!("Day: {}, Year {}", day.date().0, day.date().1);
+        
+        day.run();
     }
 }
