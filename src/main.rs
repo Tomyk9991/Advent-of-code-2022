@@ -1,3 +1,5 @@
+extern crate core;
+
 mod advent_runner;
 
 mod year_2021;
@@ -9,6 +11,6 @@ fn main() {
     let advent_runner: AdventRunner = AdventRunner::new();
 
     advent_runner
-        .set_year(2021)
+        .set_year(2022)
         .run();
 }

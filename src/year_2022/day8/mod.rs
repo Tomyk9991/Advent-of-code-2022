@@ -132,7 +132,6 @@ impl Day for Day8 {
 
     fn run(&self) {
         let input = fs::read_to_string("src/year_2022/day8/input.txt").unwrap();
-        // let input = fs::read_to_string("src/year_2022/day8/text.txt").unwrap();
 
         let lines = input.split("\n").map(|line| {
             line.trim()
