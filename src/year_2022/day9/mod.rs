@@ -80,7 +80,6 @@ impl Rope {
 
         for movement in movements {
             for _ in 0..movement.steps {
-                // Move head.
                 match movement.direction {
                     Direction::Left => self.positions[0].x -= 1,
                     Direction::Right => self.positions[0].x += 1,
@@ -88,7 +87,6 @@ impl Rope {
                     Direction::Down => self.positions[0].y += 1,
                 }
 
-                // Move tail if it is too far.
                 self.traverse_tails();
                 tail_positions
                     .push(self.positions.last().unwrap().clone());
