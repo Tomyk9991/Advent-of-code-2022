@@ -11,6 +11,6 @@ fn main() {
     let advent_runner: AdventRunner = AdventRunner::new();
 
     advent_runner
-        .set_year(2022)
+        .set_year(2021)
         .run();
 }
