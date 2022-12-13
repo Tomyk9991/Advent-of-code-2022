@@ -1,5 +1,3 @@
-extern crate core;
-
 mod advent_runner;
 
 mod year_2021;
