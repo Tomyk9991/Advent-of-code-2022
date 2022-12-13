@@ -1,6 +1,5 @@
 use std::fs;
 use std::str::FromStr;
-use std::time::Instant;
 use crate::advent_runner::Day;
 
 #[derive(Debug, Clone)]
@@ -128,26 +127,19 @@ impl Day for Day11 {
     fn date(&self) -> (i32, i32) { (11, 2022) }
 
     fn run(&self) {
-
-        let mut monkeys: Vec<Monkey> = fs::read_to_string("src/year_2022/day11/input.txt").unwrap()
-        // let mut monkeys: Vec<Monkey> = fs::read_to_string("src/year_2022/day11/test.txt").unwrap()
+        let source_monkeys: Vec<Monkey> = fs::read_to_string("src/year_2022/day11/input.txt").unwrap()
             .split("\r\n\r\n")
             .map(Monkey::from_str)
             .collect::<Result<_, _>>().expect("parsing");
 
-        let now = Instant::now();
+        let mut monkeys: Vec<Monkey> = source_monkeys.clone();
 
-        let common_multiple = monkeys.iter().map(|m| m.test_divisible_by).fold(1, |mut cm, x| {
-            cm *= x;
-            cm
-        });
-
-        for _ in 0..10000 {
+        for _ in 0..20 {
             for i in 0..monkeys.len() {
                 let monkey = monkeys[i].clone();
 
                 for starting_item in &monkey.starting_items {
-                    let worry_level = monkey.operation.execute(*starting_item) as u128 % common_multiple;
+                    let worry_level = (monkey.operation.execute(*starting_item) as f64 / 3.0) as u128;
                     let new_monkey_idx = if worry_level % monkey.test_divisible_by == 0 {
                         monkey.test_divisible_result[0]
                     } else {
@@ -166,7 +158,38 @@ impl Day for Day11 {
             b.inspections.cmp(&a.inspections)
         });
 
-        println!("{:?}", monkeys[0].inspections * monkeys[1].inspections);
-        println!("{}ms", now.elapsed().as_millis());
+        println!("Part one: {:?}", monkeys[0].inspections * monkeys[1].inspections);
+
+        let mut monkeys: Vec<Monkey> = source_monkeys.clone();
+
+        let common_multiple = monkeys.iter().map(|m| m.test_divisible_by).fold(1, |mut cm, x| {
+            cm *= x;
+            cm
+        });
+
+        for _ in 0..10000 {
+            for i in 0..monkeys.len() {
+                let monkey = monkeys[i].clone();
+
+                for starting_item in &monkey.starting_items {
+                    let worry_level = monkey.operation.execute(*starting_item) % common_multiple;
+                    let new_monkey_idx = if worry_level % monkey.test_divisible_by == 0 {
+                        monkey.test_divisible_result[0]
+                    } else {
+                        monkey.test_divisible_result[1]
+                    };
+
+                    monkeys[i].increase_inspection(1);
+                    monkeys[new_monkey_idx].starting_items.push(worry_level);
+                }
+
+                monkeys[i].starting_items.clear();
+            }
+        }
+        monkeys.sort_by(|a, b| {
+            b.inspections.cmp(&a.inspections)
+        });
+
+        println!("Part two: {}", monkeys[0].inspections * monkeys[1].inspections);
     }
 }
