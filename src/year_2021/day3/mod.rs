@@ -1,5 +1,4 @@
 use std::fs;
-use chrono::RoundingError::TimestampExceedsLimit;
 use crate::advent_runner::Day;
 
 struct ColumnIter<I> where I: Iterator {

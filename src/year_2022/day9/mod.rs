@@ -1,6 +1,5 @@
 use std::collections::HashSet;
 use std::fs;
-use std::str::FromStr;
 use crate::advent_runner::Day;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]

@@ -32,7 +32,7 @@ impl Day for Day10 {
 fn run_until(vec: &Vec<&str>, limit: Option<i32>) -> (i32, i32) {
     let target_cycle: Vec<i32> = (20..=220).step_by(40).collect::<Vec<i32>>();
     let mut cycles = 0;
-    let mut register_X = 1;
+    let mut register_x = 1;
     let mut signal_strength = 0;
 
     for line in vec {
@@ -40,7 +40,7 @@ fn run_until(vec: &Vec<&str>, limit: Option<i32>) -> (i32, i32) {
             ["noop"] => {
                 cycles += 1;
 
-                signal_strength = increase_st(signal_strength, check_cycle(&target_cycle, cycles, register_X));
+                signal_strength = increase_st(signal_strength, check_cycle(&target_cycle, cycles, register_x));
 
                 if limit.is_some() && cycles >= limit.unwrap() {
                     break;
@@ -49,14 +49,14 @@ fn run_until(vec: &Vec<&str>, limit: Option<i32>) -> (i32, i32) {
             ["addx", unit] => {
                 cycles += 1;
 
-                signal_strength = increase_st(signal_strength, check_cycle(&target_cycle, cycles, register_X));
+                signal_strength = increase_st(signal_strength, check_cycle(&target_cycle, cycles, register_x));
                 if limit.is_some() && cycles >= limit.unwrap() {
                     break;
                 }
                 cycles += 1;
-                signal_strength = increase_st(signal_strength, check_cycle(&target_cycle, cycles, register_X));
+                signal_strength = increase_st(signal_strength, check_cycle(&target_cycle, cycles, register_x));
 
-                register_X += unit.trim().parse::<i32>().unwrap();
+                register_x += unit.trim().parse::<i32>().unwrap();
                 if limit.is_some() && cycles >= limit.unwrap() {
                     break;
                 }
@@ -65,7 +65,7 @@ fn run_until(vec: &Vec<&str>, limit: Option<i32>) -> (i32, i32) {
         }
     }
 
-    return (register_X, signal_strength);
+    return (register_x, signal_strength);
 }
 
 fn increase_st(aggregation: i32, signal_strength: Option<i32>) -> i32 {
