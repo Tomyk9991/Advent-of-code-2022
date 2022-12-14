@@ -6,7 +6,7 @@ use crate::{year_2021, year_2022};
 #[macro_export]
 macro_rules! amount_2022 {
     ($expand:path) => {
-        $expand!(13);
+        $expand!(14);
     };
 }
 
