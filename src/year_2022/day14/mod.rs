@@ -2,7 +2,7 @@ use std::fmt::{Debug, Formatter, Pointer, Write};
 use std::fs;
 use std::str::FromStr;
 use std::thread::sleep;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use crate::advent_runner::Day;
 
 #[derive(Clone, PartialEq)]
@@ -171,7 +171,7 @@ impl Cave {
 
         let mut width: usize = usize::MIN;
         let mut height: usize = usize::MIN;
-        
+
 
         for point_vec in points {
             for point in point_vec {
